@@ -1,7 +1,7 @@
 from lyricsTracker import *
 
 def main():
-    LyricsTracker.CreateWindow()
+    LyricsTracker.startProgram()
 
     return
 

@@ -11,7 +11,7 @@ class LyricsTracker:
     screenWidth = GetSystemMetrics(0)
     screenHeight = GetSystemMetrics(1)
 
-    def CreateWindow():
+    def startProgram():
 
         def onFrameConfigure(canvas):
             '''Reset the scroll region to encompass the inner frame'''
@@ -22,8 +22,16 @@ class LyricsTracker:
             canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
             #canvas.configure(scrollregion=canvas.bbox("all"))
 
+        class BackButton:
+            def __init__(self, win):
+                self.win = win
+            def backButtonPressed(self):
+                self.win.destroy()
+                LyricsTracker.startProgram()
+
         lyrics, songTitle = LyricsTracker.getWords()
         songTitle = songTitle.replace("_"," ").title()
+
 
         # init window
         win = Tk()
@@ -65,6 +73,9 @@ class LyricsTracker:
         win.attributes('-topmost', True)
 
         # back button pressed destroy window make call CreateWindow again
+        bb = BackButton(win)
+        backButton = Button(win, text="<-", command=bb.backButtonPressed)
+        backButton.pack()
 
         win.mainloop()
 
@@ -105,13 +116,16 @@ class LyricsTracker:
 
         # testing with a hard coded file path
         # later create a window to select a song from the folder of saved songs
-        filePath = f"..\\Lyrics_Tracker\\savedSongs\\{title}.txt"
-        lyrics = ""
-        with open(filePath, 'r', encoding = 'utf-8') as file:
-            lines = file.readlines()
+        try:
+            filePath = f"..\\Lyrics_Tracker\\savedSongs\\{title}.txt"
+            lyrics = ""
+            with open(filePath, 'r', encoding = 'utf-8') as file:
+                lines = file.readlines()
 
-            for line in lines:
-                lyrics += str(line)
-        
-        file.close
+                for line in lines:
+                    lyrics += str(line)
+            
+            file.close
+        except:
+            print("TESTING ")
         return lyrics, title
