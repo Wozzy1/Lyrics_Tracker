@@ -30,7 +30,8 @@ class LyricsTracker:
                 LyricsTracker.startProgram()
 
         lyrics, songTitle = LyricsTracker.getWords()
-        songTitle = songTitle.replace("_"," ").title()
+        if " " in songTitle:
+            songTitle = songTitle.replace("_"," ").title()
 
 
         # init window
