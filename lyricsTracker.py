@@ -30,6 +30,10 @@ class LyricsTracker:
                 LyricsTracker.startProgram()
 
         lyrics, songTitle = LyricsTracker.getWords()
+
+        if lyrics is None or songTitle is None:
+            return
+
         if " " in songTitle:
             songTitle = songTitle.replace("_"," ").title()
 
@@ -128,5 +132,6 @@ class LyricsTracker:
             
             file.close
         except:
-            print("TESTING ")
+            # something to fix in the future: why does it even call one last time after closing
+            return None, None 
         return lyrics, title
